@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossaire — Supply Chain Sous-Marins Nucléaires Français</title>
+<style>
+  :root { --navy: #0a1628; --ocean: #1a3a5c; --accent: #4a9eff; --text: #e0e8f0; --line: #2a4a6c; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 0;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0d1f3c 0%, #1a3a5c 50%, #0d1f3c 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '⚓';
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    opacity: 0.3;
+  }
+  .header::after {
+    content: '⚓';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%) scaleX(-1);
+    font-size: 2.5rem;
+    opacity: 0.3;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  .header p {
+    color: #8ab4f8;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  /* Navigation letters */
+  .nav-letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 1rem;
+    background: #0d1f3c;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-letters a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .nav-letters a:hover {
+    background: var(--accent);
+    color: var(--navy);
+  }
+  /* Content */
+  .content {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  /* Letter section */
+  .letter-section {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 4rem;
+  }
+  .letter-section h2 {
+    font-size: 2rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.2rem;
+    font-family: 'Georgia', serif;
+  }
+  /* Entry */
+  .entry {
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid transparent;
+    border-radius: 0 6px 6px 0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .entry:hover {
+    border-left-color: var(--accent);
+    background: rgba(74, 158, 255, 0.05);
+  }
+  .entry term {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.05rem;
+  }
+  .entry .separator {
+    color: var(--accent);
+    margin: 0 0.4rem;
+  }
+  .entry .def {
+    color: #b0c8e0;
+  }
+  .entry .def strong {
+    color: #8ab4f8;
+  }
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: #5a7a9a;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+  }
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.3rem; }
+    .header::before, .header::after { display: none; }
+    .nav-letters a { width: 1.8rem; height: 1.8rem; font-size: 0.75rem; }
+    .entry { padding: 0.6rem 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚓ Glossaire — Supply Chain Sous-Marins Nucléaires Français</h1>
+  <p>Recherche passive — 70+ entrées — Mis à jour le 06/08/2026</p>
+</div>
+
+<div class="nav-letters" id="top">
+  <a href="#A">A</a>
+  <a href="#C">C</a>
+  <a href="#D">D</a>
+  <a href="#E">E</a>
+  <a href="#F">F</a>
+  <a href="#G">G</a>
+  <a href="#I">I</a>
+  <a href="#K">K</a>
+  <a href="#L">L</a>
+  <a href="#M">M</a>
+  <a href="#N">N</a>
+  <a href="#P">P</a>
+  <a href="#R">R</a>
+  <a href="#S">S</a>
+  <a href="#T">T</a>
+  <a href="#U">U</a>
+  <a href="#V">V</a>
+</div>
+
+<div class="content">
+
+<div class="letter-section" id="A">
+<h2>A</h2>
+<div class="entry"><term>ALRO</term><span class="separator">—</span><span class="def">Antenne Linéaire Remorquée Optimisée. Sonar tracté nouvelle génération par <strong>Thales</strong>, remplace le DSUV 62C sur les Suffren.</span></div>
+<div class="entry"><term>ArianeGroup</term><span class="separator">—</span><span class="def">Co-entreprise <strong>Airbus</strong> (50%) / <strong>Safran</strong> (50%) basée à Issy-les-Moulineaux. Fabrique le missile balistique <strong>M51</strong> (SLBM) pour les SNLE.</span></div>
+<div class="entry"><term>Atlas Elektronik</term><span class="separator">—</span><span class="def">Entreprise allemande de sonars et torpilles. Co-développeur de la torpille <strong>F21 Artemis</strong> avec Naval Group et Thales.</span></div>
+</div>
+
+<div class="letter-section" id="C">
+<h2>C</h2>
+<div class="entry"><term>CANTO-S</term><span class="separator">—</span><span class="def">Leurres acoustiques largables. Système de contre-mesure anti-torpille développé par <strong>Naval Group</strong>. Émet des signaux pour tromper les torpilles ennemies.</span></div>
+<div class="entry"><term>CEA</term><span class="separator">—</span><span class="def">Commissariat à l'Énergie Atomique. R&D nucléaire, concepteur initial du réacteur <strong>K15</strong>. A créé <strong>TechnicAtome</strong> en 1972.</span></div>
+<div class="entry"><term>Centrale inertielle</term><span class="separator">—</span><span class="def">Système de navigation sans GPS utilisant des gyroscopes et accéléromètres pour calculer position et orientation. Essentiel pour les sous-marins en plongée.</span></div>
+<div class="entry"><term>Chaufferie nucléaire</term><span class="separator">—</span><span class="def">Ensemble du réacteur nucléaire et de ses circuits primaires. <strong>TechnicAtome</strong> en a livré 19 pour sous-marins et porte-avions.</span></div>
+</div>
+
+<div class="letter-section" id="D">
+<h2>D</h2>
+<div class="entry"><term>D-19T UUV</term><span class="separator">—</span><span class="def">Unmanned Underwater Vehicle. Drone sous-marin téléopéré de <strong>Naval Group</strong>, lancé par tube torpille.</span></div>
+<div class="entry"><term>DGA</term><span class="separator">—</span><span class="def">Direction Générale de l'Armement. Maîtrise d'ouvrage des programmes d'armement français. Acheteur principal des sous-marins.</span></div>
+<div class="entry"><term>DIVESAT</term><span class="separator">—</span><span class="def">Système de communication satellite de <strong>Thales</strong>, liaison avec le réseau <strong>Syracuse</strong>.</span></div>
+<div class="entry"><term>DMUX 80</term><span class="separator">—</span><span class="def">Sonar de coque des SNLE Triomphant (ancienne génération).</span></div>
+<div class="entry"><term>DSUV 61B</term><span class="separator">—</span><span class="def">Sonar très basse fréquence des Triomphant.</span></div>
+<div class="entry"><term>DUUX 5</term><span class="separator">—</span><span class="def">Sonar d'interception des Triomphant.</span></div>
+</div>
+
+<div class="letter-section" id="E">
+<h2>E</h2>
+<div class="entry"><term>Écho-sondeur</term><span class="separator">—</span><span class="def">Sonar de navigation mesurant la profondeur sous la coque. <strong>NUSS-2F Mk2</strong> (Thales).</span></div>
+<div class="entry"><term>ECM</term><span class="separator">—</span><span class="def">Electronic Counter Measures. Guerre électronique défensive.</span></div>
+<div class="entry"><term>Exail</term><span class="separator">—</span><span class="def">Entreprise française (ex-<strong>iXblue</strong> + <strong>ECA Group</strong>), groupe Exail Technologies. Spécialiste centrales inertielles à fibre optique (Phins, Marins, Netans), drones sous-marins, photonique. Basée à Mérignac.</span></div>
+<div class="entry"><term>Exocet SM39</term><span class="separator">—</span><span class="def">Missile anti-navire lancé par tube torpille. Fabriqué par <strong>MBDA</strong>. Portée ~50 km. Version sous-marine du célèbre Exocet.</span></div>
+<div class="entry"><term>Exocet SM40</term><span class="separator">—</span><span class="def">Successeur du SM39, en développement chez <strong>MBDA</strong> (post-2030).</span></div>
+</div>
+
+<div class="letter-section" id="F">
+<h2>F</h2>
+<div class="entry"><term>F21 Artemis</term><span class="separator">—</span><span class="def">Torpille lourde de 533 mm, motorisation électrique à batterie AgO-Al (argent-oxyde d'aluminium). Développée par <strong>Naval Group</strong> + <strong>Thales</strong> + <strong>Atlas Elektronik</strong>. Équipe tous les sous-marins français.</span></div>
+<div class="entry"><term>F21 Mk2</term><span class="separator">—</span><span class="def">Évolution de la F21, contrat signé en 2026.</span></div>
+<div class="entry"><term>FG29</term><span class="separator">—</span><span class="def">Mine navale multi-influences. Lanceable par tube torpille.</span></div>
+<div class="entry"><term>FOG</term><span class="separator">—</span><span class="def">Fiber Optic Gyroscope. Gyroscope à fibre optique. Technologie utilisée par <strong>Exail</strong> (vs gyrolaser de Safran).</span></div>
+<div class="entry"><term>Framatome</term><span class="separator">—</span><span class="def">Entreprise nucléaire (ex-Areva NP). A été actionnaire de <strong>TechnicAtome</strong>.</span></div>
+</div>
+
+<div class="letter-section" id="G">
+<h2>G</h2>
+<div class="entry"><term>Gaps</term><span class="separator">—</span><span class="def">Système de positionnement acoustique sous-marin (<strong>Exail</strong>).</span></div>
+<div class="entry"><term>Groupe Gorgé</term><span class="separator">—</span><span class="def">Groupe industriel français, ancien propriétaire d'<strong>iXblue</strong> (devenu Exail).</span></div>
+<div class="entry"><term>Gyrolaser</term><span class="separator">—</span><span class="def">Gyroscope à anneau laser (Ring Laser Gyro / RLG). Technologie de <strong>Safran</strong> pour la <strong>SIGMA 40 XP</strong>.</span></div>
+<div class="entry"><term>Gyrocompas</term><span class="separator">—</span><span class="def">Compas basé sur un gyroscope, indiquant le nord vrai sans magnétisme. <strong>Safran</strong> en fabrique depuis 1925.</span></div>
+</div>
+
+<div class="letter-section" id="I">
+<h2>I</h2>
+<div class="entry"><term>Île Longue</term><span class="separator">—</span><span class="def">Base opérationnelle des SNLE, située dans la rade de Brest. Point central de la <strong>Force Océanique Stratégique</strong>.</span></div>
+</div>
+
+<div class="letter-section" id="K">
+<h2>K</h2>
+<div class="entry"><term>K15</term><span class="separator">—</span><span class="def">Réacteur nucléaire à eau pressurisée (REP) de 150 MWth. Conçu par le <strong>CEA</strong>, fabriqué par <strong>TechnicAtome</strong>. Équipe les Suffren, Triomphant et le porte-avions Charles de Gaulle.</span></div>
+<div class="entry"><term>Kership</term><span class="separator">—</span><span class="def">Co-entreprise <strong>Naval Group</strong> (45%) / <strong>Piriou</strong>. Construction de navires de moyen tonnage.</span></div>
+</div>
+
+<div class="letter-section" id="L">
+<h2>L</h2>
+<div class="entry"><term>Leurres acoustiques</term><span class="separator">—</span><span class="def">Dispositifs émettant des signaux sonores pour tromper les torpilles. Ex : <strong>CANTO-S</strong>.</span></div>
+<div class="entry"><term>Link 11/16/22</term><span class="separator">—</span><span class="def">Data links tactiques standard OTAN pour échange de données entre unités navales.</span></div>
+</div>
+
+<div class="letter-section" id="M">
+<h2>M</h2>
+<div class="entry"><term>M51</term><span class="separator">—</span><span class="def">Missile balistique mer-sol (SLBM) français. Fabriqué par <strong>ArianeGroup</strong>. 8 000–10 000 km de portée, Mach 25. Équipe les SNLE Triomphant.</span></div>
+<div class="entry"><term>M51.3</term><span class="separator">—</span><span class="def">Version améliorée du M51, entrée en service opérationnel fin 2025.</span></div>
+<div class="entry"><term>M51.4</term><span class="separator">—</span><span class="def">Version future, contrat notifié à <strong>ArianeGroup</strong> en septembre 2025.</span></div>
+<div class="entry"><term>MAN Energy Solutions</term><span class="separator">—</span><span class="def">Groupe allemand. A absorbé <strong>SEMT Pielstick</strong>. Fabrique les générateurs diesel de secours des sous-marins français.</span></div>
+<div class="entry"><term>MBDA</term><span class="separator">—</span><span class="def">Groupe européen de missiles. Actionnaires : <strong>Airbus</strong> (37,5%), <strong>BAE Systems</strong> (37,5%), <strong>Leonardo</strong> (25%). Produit le <strong>MdCN</strong>, l'<strong>Exocet</strong>, les missiles anti-aériens.</span></div>
+<div class="entry"><term>MBDA France</term><span class="separator">—</span><span class="def">Filiale française de MBDA, basée au Plessis-Robinson. Maître d'œuvre du <strong>MdCN</strong> et de l'<strong>Exocet</strong>.</span></div>
+<div class="entry"><term>MdCN</term><span class="separator">—</span><span class="def">Missile de Croisière Naval. Cruise missile mer-sol longue portée (~1 000 km) de <strong>MBDA France</strong>. Lancé par tube torpille sur les Suffren.</span></div>
+</div>
+
+<div class="letter-section" id="N">
+<h2>N</h2>
+<div class="entry"><term>Naval Group</term><span class="separator">—</span><span class="def">Maître d'œuvre des sous-marins français. Actionnariat : État (62,49%), <strong>Thales</strong> (35%), salariés (2,51%). 15 261 employés, 18 pays. Anciennement DCNS (2007-2017), DCN (1991-2007), DCAN (avant 1991).</span></div>
+<div class="entry"><term>NEMESIS</term><span class="separator">—</span><span class="def">Système de guerre électronique (ECM) de <strong>Naval Group</strong>. Contre-mesures radar et communications.</span></div>
+<div class="entry"><term>NUSS-2F Mk2</term><span class="separator">—</span><span class="def">Écho-sondeur de navigation <strong>Thales</strong>. Mesure la profondeur sous la coque.</span></div>
+</div>
+
+<div class="letter-section" id="P">
+<h2>P</h2>
+<div class="entry"><term>PARTNER</term><span class="separator">—</span><span class="def">Système de gestion des communications de <strong>Thales</strong>. Intègre radio, satellite, data links.</span></div>
+<div class="entry"><term>PAT</term><span class="separator">—</span><span class="def">Pile d'Essais à Terre. Réacteur d'essai au sol à <strong>Cadarache</strong> pour qualifier les chaufferies nucléaires avant installation.</span></div>
+<div class="entry"><term>Phins</term><span class="separator">—</span><span class="def">Centrale inertielle à fibre optique (FOG) d'<strong>Exail</strong> (ex-iXblue). Utilisée sur navires et drones.</span></div>
+<div class="entry"><term>Posidonia</term><span class="separator">—</span><span class="def">Système de positionnement acoustique de fond de mer (<strong>Exail</strong>).</span></div>
+<div class="entry"><term>Pump-jet</term><span class="separator">—</span><span class="def">Propulseur à hélice carénée (shrouded propeller). 9 pales rotor + 7 pales stator. Très silencieux. Équipe les Suffren et Triomphant. Fabriqué par <strong>Naval Group</strong>.</span></div>
+</div>
+
+<div class="letter-section" id="R">
+<h2>R</h2>
+<div class="entry"><term>RESM</term><span class="separator">—</span><span class="def">Radar Electronic Support Measures. Antennes de détection radar intégrées dans les mâts optroniques.</span></div>
+<div class="entry"><term>RLG</term><span class="separator">—</span><span class="def">Ring Laser Gyroscope. Voir <strong>Gyrolaser</strong>.</span></div>
+<div class="entry"><term>Rubis</term><span class="separator">—</span><span class="def">Classe de SNA précédant les Suffren (6 exemplaires, retrait progressif 2020-2030).</span></div>
+</div>
+
+<div class="letter-section" id="S">
+<h2>S</h2>
+<div class="entry"><term>Safran Electronics &amp; Defense</term><span class="separator">—</span><span class="def">Ex-<strong>Sagem</strong>. Filiale de Safran spécialisée en optronique, avionique, navigation inertielle. Basée à Boulogne-Billancourt. Fabrique la <strong>SIGMA 40 XP</strong>, les mâts optroniques, les périscopes non-pénétrants des sous-marins.</span></div>
+<div class="entry"><term>SCC</term><span class="separator">—</span><span class="def">Système d'Exploitation Tactique. Système de gestion de combat des SNLE Triomphant.</span></div>
+<div class="entry"><term>SEACLEAR</term><span class="separator">—</span><span class="def">Sonar d'évitement d'obstacles et de détection de mines de <strong>Thales</strong>.</span></div>
+<div class="entry"><term>SEMT Pielstick</term><span class="separator">—</span><span class="def">Société d'Études des Machines Thermiques. Fabricant français de moteurs diesel, créé en 1946. Absorbé par <strong>MAN Energy Solutions</strong> en 2006. Générateurs de secours : SEMT Pielstick 8PA4V200 SM.</span></div>
+<div class="entry"><term>Sentinel-U</term><span class="separator">—</span><span class="def">Radar de navigation monté sur le mât Série 10 CSR de <strong>Safran</strong>.</span></div>
+<div class="entry"><term>SIGMA 30</term><span class="separator">—</span><span class="def">Centrale inertielle gyrolaser de <strong>Safran</strong>, usage artillerie/navigation.</span></div>
+<div class="entry"><term>SIGMA 40 XP</term><span class="separator">—</span><span class="def">Centrale inertielle gyrolaser de référence pour les sous-marins français (Suffren, Orka, SNLE 3G). Fabriquée par <strong>Safran Electronics &amp; Defense</strong>.</span></div>
+<div class="entry"><term>SIGMA 95</term><span class="separator">—</span><span class="def">Ancienne génération de centrale inertielle <strong>Safran</strong>.</span></div>
+<div class="entry"><term>Sirehna</term><span class="separator">—</span><span class="def">Filiale à 100% de <strong>Naval Group</strong>. Hydrodynamique navale, solutions de navigation.</span></div>
+<div class="entry"><term>SLBM</term><span class="separator">—</span><span class="def">Submarine-Launched Ballistic Missile. Missile balistique lancé depuis un sous-marin.</span></div>
+<div class="entry"><term>SNA</term><span class="separator">—</span><span class="def">Sous-Marin Nucléaire d'Attaque. Suffren = SNA.</span></div>
+<div class="entry"><term>SNLE</term><span class="separator">—</span><span class="def">Sous-Marin Nucléaire Lanceur d'Engins. Triomphant = SNLE. Porte les missiles M51.</span></div>
+<div class="entry"><term>SNLE 3G</term><span class="separator">—</span><span class="def">3e Génération de SNLE. Programme de remplacement des Triomphant (~2035+). Conception : <strong>Naval Group</strong> + <strong>TechnicAtome</strong> + <strong>Thales</strong>.</span></div>
+<div class="entry"><term>SYCOBS</term><span class="separator">—</span><span class="def">Système de gestion de combat de <strong>Naval Group</strong>. Équipe les Suffren.</span></div>
+<div class="entry"><term>Syracuse</term><span class="separator">—</span><span class="def">Constellation de satellites de communication militaire français. Liaison <strong>DIVESAT</strong>.</span></div>
+</div>
+
+<div class="letter-section" id="T">
+<h2>T</h2>
+<div class="entry"><term>TechnicAtome</term><span class="separator">—</span><span class="def">Entreprise française de propulsion nucléaire navale. Créée en 1972 par le <strong>CEA</strong>. Actionnaires : <strong>EDF/EDEV</strong> (50,32%), État (49,68%). Basée à Cadarache et Cherbourg. Conçoit et maintient les réacteurs <strong>K15</strong>.</span></div>
+<div class="entry"><term>Thales</term><span class="separator">—</span><span class="def">Groupe français d'électronique et de défense. Actionnaire de <strong>Naval Group</strong> (35%). Fournit les sonars, communications (PARTNER, DIVESAT) et data links pour les sous-marins français.</span></div>
+<div class="entry"><term>Thales Underwater Systems</term><span class="separator">—</span><span class="def">Division sous-marine de Thales. Sonars UMS-3000, ETBF DSUV 62C, SEACLEAR, VELOX-M8, NUSS-2F.</span></div>
+<div class="entry"><term>TN 75</term><span class="separator">—</span><span class="def">Tête nucléaire embarquée sur les M45. 150 kt.</span></div>
+<div class="entry"><term>TNO</term><span class="separator">—</span><span class="def">Tête Nucléaire Océanique. Nouvelle génération de tête nucléaire pour le <strong>M51</strong>. 100-300 kt.</span></div>
+<div class="entry"><term>TUUM-5 MK2</term><span class="separator">—</span><span class="def">Système de communication de détresse sous-marin (DISSUB) de <strong>Thales</strong>. Permet à un sous-marin en détresse de signaler sa position.</span></div>
+</div>
+
+<div class="letter-section" id="U">
+<h2>U</h2>
+<div class="entry"><term>UmiX</term><span class="separator">—</span><span class="def">Système de navigation inertielle d'<strong>Exail</strong> pour drones sous-marins autonomes (AUV).</span></div>
+<div class="entry"><term>UMS-3000</term><span class="separator">—</span><span class="def">Suite sonar multifonctions de <strong>Thales</strong>, comprenant antenne de coque et antennes de flanc. Équipe les Suffren.</span></div>
+<div class="entry"><term>UUV</term><span class="separator">—</span><span class="def">Unmanned Underwater Vehicle. Drone sous-marin.</span></div>
+</div>
+
+<div class="letter-section" id="V">
+<h2>V</h2>
+<div class="entry"><term>VELOX-M8</term><span class="separator">—</span><span class="def">Intercepteur sonar large bande de <strong>Thales</strong>. Détecte les sonars adverses.</span></div>
+<div class="entry"><term>VSM</term><span class="separator">—</span><span class="def">Véhicule Sous-Marin. Conteneur étanche pour lancement de missile <strong>Exocet SM39</strong> depuis un tube torpille.</span></div>
+</div>
+
+</div>
+
+<div class="footer">
+  Document généré par Hermes Agent — recherche passive uniquement — 06/08/2026
+</div>
+
+</body>
+</html>
