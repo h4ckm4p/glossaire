@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supply Chain — Arbre</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0a1628; color: #e0e8f0;
+    overflow: hidden; height: 100vh;
+  }
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: linear-gradient(135deg, #0d1f3c, #0a1628);
+    padding: 0.7rem 1.2rem; border-bottom: 1px solid #1e3a5f;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #header h1 { font-size: 0.9rem; color: #fff; }
+  #header span { color: #5a7a9a; font-size: 0.65rem; }
+  #mynetwork {
+    width: 100vw; height: 100vh;
+    background: radial-gradient(ellipse at center, #0f2240 0%, #0a1628 70%);
+  }
+  #legend {
+    position: fixed; bottom: 0.8rem; left: 0.8rem; z-index: 10;
+    background: rgba(10,22,40,0.92); border: 1px solid #1e3a5f;
+    border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem;
+  }
+  #legend h4 { color: #fff; margin-bottom: 0.15rem; font-size: 0.6rem; }
+  .l-item { display: flex; align-items: center; gap: 0.25rem; margin-bottom: 0.05rem; }
+  .l-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  #tooltip {
+    position: fixed; display: none; z-index: 20;
+    background: rgba(10,22,40,0.95); border: 1px solid #4a9eff;
+    border-radius: 6px; padding: 0.5rem 0.7rem;
+    font-size: 0.7rem; pointer-events: none;
+    max-width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #tooltip .tt-name { color: #fff; font-weight: 700; font-size: 0.75rem; }
+  #tooltip .tt-detail { color: #8ab4f8; margin-top: 0.15rem; font-size: 0.65rem; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>🌳 Sous-Marins Français — Arbre des Systèmes aux Fournisseurs</h1>
+  <span>Drag · Scroll · Cliquer-glisser pour déplacer</span>
+</div>
+
+<div id="mynetwork"></div>
+
+<div id="legend">
+  <h4>Légende</h4>
+  <div class="l-item"><span class="l-dot" style="background:#f0c040"></span> Client</div>
+  <div class="l-item"><span class="l-dot" style="background:#d4a030"></span> Système</div>
+  <div class="l-item"><span class="l-dot" style="background:#7c5cd7"></span> Composant</div>
+  <div class="l-item"><span class="l-dot" style="background:#e74c3c"></span> Nucléaire</div>
+  <div class="l-item"><span class="l-dot" style="background:#3498db"></span> Sonars / Comms</div>
+  <div class="l-item"><span class="l-dot" style="background:#9b59b6"></span> Optronique</div>
+  <div class="l-item"><span class="l-dot" style="background:#1abc9c"></span> Missiles</div>
+  <div class="l-item"><span class="l-dot" style="background:#e67e22"></span> Balistique</div>
+  <div class="l-item"><span class="l-dot" style="background:#2ecc71"></span> Diesel</div>
+  <div class="l-item"><span class="l-dot" style="background:#e84393"></span> Inertiel</div>
+  <div class="l-item"><span class="l-dot" style="background:#f0c040"></span> Intégrateur</div>
+</div>
+
+<div id="tooltip">
+    <div class="tt-name" id="tt-name"></div>
+    <div class="tt-detail" id="tt-detail"></div>
+</div>
+
+<script src="https://unpkg.com/vis-network@9.1.6/dist/vis-network.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const nodes = new vis.DataSet([
+
+    // ─── NIVEAU 0 ───
+    { id: 'navy',       label: 'Marine Nationale\nDGA',         level: 0, group: 'client', shape: 'star',   size: 22, color: { background: '#f0c040', border: '#fff' }, font: { color: '#fff', size: 11, face: 'Segoe UI' } },
+    { id: 'sub',        label: 'Sous-marin\nNucléaire Français', level: 0, group: 'client', shape: 'star',   size: 26, color: { background: '#f0c040', border: '#fff' }, font: { color: '#fff', size: 12, face: 'Segoe UI' } },
+
+    // ─── NIVEAU 1 : SYSTÈMES ───
+    { id: 's_prop',     label: 'Propulsion',      level: 1, group: 'sys', shape: 'hexagon', size: 19, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 10 } },
+    { id: 's_sonar',    label: 'Sonars\n& Détection',  level: 1, group: 'sys', shape: 'hexagon', size: 19, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 10 } },
+    { id: 's_opto',     label: 'Optronique\n& Navigation', level: 1, group: 'sys', shape: 'hexagon', size: 19, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 10 } },
+    { id: 's_combat',   label: 'Combat',           level: 1, group: 'sys', shape: 'hexagon', size: 17, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 9 } },
+    { id: 's_comms',    label: 'Communications',   level: 1, group: 'sys', shape: 'hexagon', size: 17, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 9 } },
+    { id: 's_missile',  label: 'Armement\nMissiles',  level: 1, group: 'sys', shape: 'hexagon', size: 19, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 10 } },
+    { id: 's_torp',     label: 'Armement\nTorpilles', level: 1, group: 'sys', shape: 'hexagon', size: 17, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 9 } },
+    { id: 's_elec',     label: 'Électricité\nsecours', level: 1, group: 'sys', shape: 'hexagon', size: 15, color: { background: '#d4a030', border: '#f0c040' }, font: { color: '#fff', size: 8 } },
+
+    // ─── NIVEAU 2 : COMPOSANTS ───
+    // Propulsion
+    { id: 'k15',    label: 'Réacteur K15\n150 MWth', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'chaud',  label: 'Chaudière\nnucléaire',   level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'pump',   label: 'Pump-jet\n9+7 pales',   level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'turbo',  label: 'Turbo-altern.\n10 MW',  level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Sonars
+    { id: 'ums',    label: 'UMS-3000\ncoque+flanc', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'dsuv',   label: 'DSUV 62C\ntracté BF',  level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'seac',   label: 'SEACLEAR\nanti-mines', level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'velox',  label: 'VELOX-M8\nintercept.', level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Optronique & Navigation
+    { id: 'sigma',  label: 'SIGMA 40 XP\ngyrolaser RLG', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'optro',  label: 'Mât Série-30\noptronique', level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'peri',   label: 'Périscope\nnon-pénétr.',  level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'csr',    label: 'Radar\nSentinel-U',        level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'phins',  label: 'Phins/Marins\nFOG',        level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Combat
+    { id: 'sycobs', label: 'SYCOBS\ncombat mgmt', level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'neme',   label: 'NEMESIS\nECM + CANTO', level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Comms
+    { id: 'part',   label: 'PARTNER\ncomms mgmt', level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'dive',   label: 'DIVESAT\nSyracuse',   level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'link',   label: 'Link 11/16/22',       level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Missiles
+    { id: 'mdcn',   label: 'MdCN\ncruise 1000km', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'exocet', label: 'Exocet SM39\nanti-navire', level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+    { id: 'm51',    label: 'M51 / M51.3\nSLBM 10 000km', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+
+    // Torpilles
+    { id: 'f21',    label: 'F21 Artemis\ntorpille lourde', level: 2, group: 'comp', size: 13, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 8 } },
+    { id: 'd19t',   label: 'D-19T UUV\ndrone sous-marin', level: 2, group: 'comp', size: 11, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // Électricité
+    { id: 'diesel', label: '8PA4V200 SM\n480-700 kW', level: 2, group: 'comp', size: 12, color: { background: '#7c5cd7', border: '#9a8cff' }, font: { color: '#ccc', size: 7 } },
+
+    // ─── NIVEAU 3 : FOURNISSEURS ───
+    { id: 'ta',   label: 'TechnicAtome',     level: 3, group: 's_nuc', shape: 'square', size: 17, color: { background: '#e74c3c', border: '#fff' }, font: { color: '#fff', size: 9, face: 'Segoe UI' } },
+    { id: 'th',   label: 'Thales',           level: 3, group: 's_son', shape: 'square', size: 17, color: { background: '#3498db', border: '#fff' }, font: { color: '#fff', size: 9, face: 'Segoe UI' } },
+    { id: 'sf',   label: 'Safran E&D',       level: 3, group: 's_opt', shape: 'square', size: 17, color: { background: '#9b59b6', border: '#fff' }, font: { color: '#fff', size: 9, face: 'Segoe UI' } },
+    { id: 'ex',   label: 'Exail',            level: 3, group: 's_fog', shape: 'square', size: 15, color: { background: '#e84393', border: '#fff' }, font: { color: '#fff', size: 8, face: 'Segoe UI' } },
+    { id: 'ng',   label: 'Naval Group',      level: 3, group: 's_int', shape: 'square', size: 19, color: { background: '#f0c040', border: '#fff' }, font: { color: '#1a1a2e', size: 10, face: 'Segoe UI', weight: 'bold' } },
+    { id: 'mb',   label: 'MBDA France',      level: 3, group: 's_mis', shape: 'square', size: 17, color: { background: '#1abc9c', border: '#fff' }, font: { color: '#fff', size: 9, face: 'Segoe UI' } },
+    { id: 'ar',   label: 'ArianeGroup',      level: 3, group: 's_bal', shape: 'square', size: 15, color: { background: '#e67e22', border: '#fff' }, font: { color: '#fff', size: 8, face: 'Segoe UI' } },
+    { id: 'man',  label: 'MAN Energy',       level: 3, group: 's_die', shape: 'square', size: 13, color: { background: '#2ecc71', border: '#fff' }, font: { color: '#fff', size: 8, face: 'Segoe UI' } },
+  ]);
+
+  const edges = new vis.DataSet([
+    // 0→0
+    { from: 'navy', to: 'sub' },
+    // 0→1
+    { from: 'sub', to: 's_prop' }, { from: 'sub', to: 's_sonar' },
+    { from: 'sub', to: 's_opto' }, { from: 'sub', to: 's_combat' },
+    { from: 'sub', to: 's_comms' }, { from: 'sub', to: 's_missile' },
+    { from: 'sub', to: 's_torp' }, { from: 'sub', to: 's_elec' },
+    // 1→2 Propulsion
+    { from: 's_prop', to: 'k15' }, { from: 's_prop', to: 'chaud' },
+    { from: 's_prop', to: 'pump' }, { from: 's_prop', to: 'turbo' },
+    // 1→2 Sonars
+    { from: 's_sonar', to: 'ums' }, { from: 's_sonar', to: 'dsuv' },
+    { from: 's_sonar', to: 'seac' }, { from: 's_sonar', to: 'velox' },
+    // 1→2 Optronique
+    { from: 's_opto', to: 'sigma' }, { from: 's_opto', to: 'optro' },
+    { from: 's_opto', to: 'peri' }, { from: 's_opto', to: 'csr' },
+    { from: 's_opto', to: 'phins' },
+    // 1→2 Combat
+    { from: 's_combat', to: 'sycobs' }, { from: 's_combat', to: 'neme' },
+    // 1→2 Comms
+    { from: 's_comms', to: 'part' }, { from: 's_comms', to: 'dive' },
+    { from: 's_comms', to: 'link' },
+    // 1→2 Missiles
+    { from: 's_missile', to: 'mdcn' }, { from: 's_missile', to: 'exocet' },
+    { from: 's_missile', to: 'm51' },
+    // 1→2 Torpilles
+    { from: 's_torp', to: 'f21' }, { from: 's_torp', to: 'd19t' },
+    // 1→2 Électricité
+    { from: 's_elec', to: 'diesel' },
+    // 2→3
+    { from: 'k15', to: 'ta' }, { from: 'chaud', to: 'ta' }, { from: 'turbo', to: 'ta' },
+    { from: 'pump', to: 'ng' },
+    { from: 'ums', to: 'th' }, { from: 'dsuv', to: 'th' }, { from: 'seac', to: 'th' },
+    { from: 'velox', to: 'th' }, { from: 'part', to: 'th' }, { from: 'dive', to: 'th' },
+    { from: 'link', to: 'th' },
+    { from: 'sigma', to: 'sf' }, { from: 'optro', to: 'sf' }, { from: 'peri', to: 'sf' },
+    { from: 'csr', to: 'sf' },
+    { from: 'sycobs', to: 'ng' }, { from: 'neme', to: 'ng' },
+    { from: 'f21', to: 'ng' }, { from: 'd19t', to: 'ng' },
+    { from: 'mdcn', to: 'mb' }, { from: 'exocet', to: 'mb' },
+    { from: 'm51', to: 'ar' },
+    { from: 'diesel', to: 'man' },
+    { from: 'phins', to: 'ex' },
+  ]);
+
+  const container = document.getElementById('mynetwork');
+  const data = { nodes, edges };
+
+  const options = {
+    layout: {
+      hierarchical: {
+        enabled: true,
+        direction: 'UD',
+        sortMethod: 'directed',
+        levelSeparation: 150,
+        nodeSpacing: 180,
+        treeSpacing: 250,
+        blockShifting: true,
+        edgeMinimization: true,
+        parentCentralization: true,
+      }
+    },
+    physics: { enabled: false },
+    interaction: {
+      hover: true, navigationButtons: true, keyboard: true,
+      dragNodes: true, zoomView: true, dragView: true,
+    },
+    edges: {
+      smooth: { type: 'curvedCW', roundness: 0.05 },
+      width: 2, color: { color: '#5a7a9a', highlight: '#4a9eff' },
+      arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+    },
+    nodes: {
+      borderWidth: 2, shadow: { enabled: true, size: 4, x: 2, y: 2, color: 'rgba(0,0,0,0.3)' },
+      font: { color: '#e0e8f0', face: 'Segoe UI', align: 'center' },
+      margin: { top: 6, bottom: 6, left: 6, right: 6 },
+    }
+  };
+
+  const network = new vis.Network(container, data, options);
+
+  // Tooltip on hover
+  const tip = document.getElementById('tooltip');
+  network.on('hoverNode', function(params) {
+    const node = nodes.get(params.node);
+    if (!node) return;
+    document.getElementById('tt-name').textContent = node.label.replace(/\n/g, ' · ');
+    const groupNames = {
+      client: 'Client — Marine Nationale / DGA',
+      sys: 'Système embarqué du sous-marin',
+      comp: 'Composant / Équipement',
+      s_nuc: 'Propulsion nucléaire — SIREN 722045879',
+      s_son: 'Sonars & Communications — SIREN 552059024',
+      s_opt: 'Optronique & Navigation — SIREN 480107911',
+      s_fog: 'Navigation inertielle FOG — SIREN 433185121',
+      s_int: 'Maître d\'œuvre & intégrateur — SIREN 441133808',
+      s_mis: 'Missiles — SIREN 378168470',
+      s_bal: 'Missile balistique — SIREN 519032247',
+      s_die: 'Générateurs diesel — ex-SEMT Pielstick'
+    };
+    document.getElementById('tt-detail').textContent = groupNames[node.group] || '';
+    tip.style.display = 'block';
+    tip.style.left = Math.min(params.event.clientX + 15, window.innerWidth - 280) + 'px';
+    tip.style.top = Math.max(params.event.clientY - 10, 10) + 'px';
+  });
+  network.on('blurNode', function() { tip.style.display = 'none'; });
+
+  setTimeout(() => network.fit({ animation: true }), 200);
+  window.addEventListener('resize', () => network.fit({ animation: false }));
+});
+</script>
+</body>
+</html>
