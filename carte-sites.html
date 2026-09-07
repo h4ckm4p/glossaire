@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte — Sites de Production Sous-Marins</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; height: 100vh; background: #0a1628; }
+  #map { height: 100vh; width: 100vw; background: #0a1628; }
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: linear-gradient(135deg, #0d1f3c, #0a1628);
+    padding: 0.5rem 1rem; border-bottom: 1px solid #1e3a5f;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem;
+  }
+  #header h1 { font-size: 0.85rem; color: #fff; }
+  #header span { color: #5a7a9a; font-size: 0.6rem; }
+  #legend {
+    position: fixed; bottom: 0.8rem; left: 0.8rem; z-index: 1000;
+    background: rgba(10,22,40,0.92); border: 1px solid #1e3a5f;
+    border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.55rem; color: #e0e8f0;
+    max-width: 190px;
+  }
+  #legend h4 { color: #fff; margin-bottom: 0.15rem; font-size: 0.6rem; }
+  .l-item { display: flex; align-items: center; gap: 0.25rem; margin-bottom: 0.08rem; }
+  .l-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; }
+  .leaflet-popup-content-wrapper { background: #0f2240 !important; color: #e0e8f0 !important; border-radius: 8px !important; border: 1px solid #1e3a5f !important; }
+  .leaflet-popup-tip { background: #0f2240 !important; }
+  .leaflet-popup-content { margin: 8px 12px !important; font-size: 0.72rem !important; line-height: 1.4 !important; }
+  .popup-name { font-weight: 700; color: #fff; font-size: 0.8rem; }
+  .popup-type { display: inline-block; background: rgba(255,255,255,0.1); border-radius: 3px; padding: 0.05rem 0.4rem; font-size: 0.55rem; color: #8ab4f8; margin-top: 0.1rem; }
+  .popup-addr { color: #5a7a9a; font-size: 0.62rem; margin-top: 0.1rem; }
+  .popup-siren { color: #7a9abb; font-size: 0.55rem; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>🗺️ Sites de Production — Supply Chain Sous-Marins Français</h1>
+  <span>Construction · Assemblage · R&D · Essais</span>
+</div>
+
+<div id="map"></div>
+
+<div id="legend">
+  <h4>Légende</h4>
+  <div class="l-item"><span class="l-dot" style="background:#f0c040;border-radius:2px;transform:rotate(45deg);width:8px;height:8px;"></span> Siège social</div>
+  <div class="l-item"><span class="l-dot" style="background:#f0c040"></span> Naval Group — Construction</div>
+  <div class="l-item"><span class="l-dot" style="background:#e8b84a"></span> Naval Group — Maintenance</div>
+  <div class="l-item"><span class="l-dot" style="background:#e74c3c"></span> TechnicAtome — Nucléaire</div>
+  <div class="l-item"><span class="l-dot" style="background:#3498db"></span> Thales — Sonars / Comms</div>
+  <div class="l-item"><span class="l-dot" style="background:#9b59b6"></span> Safran — Optronique</div>
+  <div class="l-item"><span class="l-dot" style="background:#1abc9c"></span> MBDA — Missiles</div>
+  <div class="l-item"><span class="l-dot" style="background:#e67e22"></span> ArianeGroup — Balistique</div>
+  <div class="l-item"><span class="l-dot" style="background:#e84393"></span> Exail — Navigation</div>
+  <div class="l-item"><span class="l-dot" style="background:#2ecc71"></span> Autre / Filiale</div>
+</div>
+
+<script>
+const map = L.map('map', {
+  center: [46.8, 2.0], zoom: 6,
+  zoomControl: true,
+  attributionControl: true
+});
+
+L.tileLayer('https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+  maxZoom: 20, attribution: '&copy; <a href="https://www.ign.fr">IGN</a>'
+}).addTo(map);
+
+function addHQ(lat, lng, name, type, addr, siren, color) {
+  // Headquarters: diamond shape via custom marker
+  const icon = L.divIcon({
+    className: 'hq-marker',
+    html: `<div style="width:18px;height:18px;background:${color};border:3px solid #fff;transform:rotate(45deg);border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
+    popupAnchor: [0, -12]
+  });
+  const marker = L.marker([lat, lng], { icon }).addTo(map);
+  marker.bindPopup(`
+    <div class="popup-name">🏢 ${name}</div>
+    <div class="popup-type">${type} — SIÈGE SOCIAL</div>
+    <div class="popup-addr">${addr}</div>
+    <div class="popup-siren">${siren}</div>
+  `);
+  return marker;
+}
+
+function addSite(lat, lng, name, type, addr, siren, color, size) {
+  // Production site: circle
+  const marker = L.circleMarker([lat, lng], {
+    radius: size || 8, color: '#fff', fillColor: color,
+    fillOpacity: 0.85, weight: 2.5, opacity: 0.9
+  }).addTo(map);
+  marker.bindPopup(`
+    <div class="popup-name">${name}</div>
+    <div class="popup-type">${type}</div>
+    <div class="popup-addr">${addr}</div>
+    <div class="popup-siren">${siren}</div>
+  `);
+  return marker;
+}
+
+// ════════════════════════════════════════════════════════════
+// SITES DE PRODUCTION (cercles ●)
+// ════════════════════════════════════════════════════════════
+
+// NAVAL GROUP — Sites de production
+addSite(49.638, -1.619, 'Naval Group — Cherbourg', '🏗️ CONSTRUCTION SOUS-MARINS', 'Avenue de l\'Amiral Lemonnier, 50100 Cherbourg-en-Cotentin', 'SIREN 441133808 — 21 ét.', '#f0c040', 12);
+addSite(48.310, -4.487, 'Naval Group — Brest / Île Longue', '🔧 MAINTENANCE SNLE — Base navale', 'Île Longue, Rade de Brest, 29200 Brest', 'Dissuasion nucléaire', '#e8b84a', 10);
+addSite(43.124, 5.921, 'Naval Group — Toulon', '🔧 MAINTENANCE SNA — Base navale', 'Base navale de Toulon, 83000 Toulon', 'Force sous-marine', '#e8b84a', 10);
+addSite(47.194, -1.955, 'Naval Group — Indret', '🔬 R&D & PROPULSION', 'Indret, 44620 La Montagne (Nantes)', 'Moteurs & propulsion', '#9b59b6', 8);
+addSite(45.683, 0.221, 'Naval Group — Ruelle', '⚙️ ARTILLERIE & COMPOSANTS', 'Ruelle-sur-Touvre, 16600', 'Fonderie & usinage', '#e8b84a', 8);
+addSite(43.139, 5.847, 'Naval Group — Ollioules', '⚓ CHAÎNES & ANCRES', '199 AV PIERRE GILLES DE GENNES, 83190 OLLIOULES', 'Équipements navals', '#e8b84a', 7);
+addSite(48.798, 2.313, 'Naval Group — Bagneux', '💻 SYSTÈMES INFO (fermé 2026)', 'Bagneux, 92220', 'Ancien site info', '#5a7a9a', 6);
+
+// TECHNICATOME — Sites
+addSite(43.692, 5.762, 'TechnicAtome — Cadarache', '☢️ R&D & ESSAIS NUCLÉAIRES (PAT)', 'CEA Cadarache, Bât. 430, 13115 Saint-Paul-lès-Durance', 'SIREN 722045879 — 15 ét.', '#e74c3c', 10);
+addSite(49.645, -1.625, 'TechnicAtome — Cherbourg', '☢️ INTÉGRATION CHAUFFERIES NUCLÉAIRES', 'Site Naval Group, Cherbourg-en-Cotentin', 'Chaufferies K15', '#c0392b', 8);
+
+// THALES — Sites de production
+addSite(48.390, -4.487, 'Thales — Brest (Underwater Systems)', '🔊 PRODUCTION SONARS SOUS-MARINS', 'Zone du Froutven, 29200 Brest', 'UMS-3000, DSUV 62C', '#2980b9', 9);
+addSite(43.616, 7.055, 'Thales — Sophia Antipolis', '🔬 R&D ÉLECTRONIQUE & SONARS', 'Sophia Antipolis, 06560 Valbonne', 'R&D Thales', '#2980b9', 7);
+addSite(48.933, 2.296, 'Thales — Gennevilliers', '🔬 SÉCURITÉ & SYSTÈMES', '4 AV DES LOUVRESSES, 92230 GENNEVILLIERS', 'SIREN 383470937', '#2980b9', 6);
+
+// SAFRAN — Sites de production
+addSite(48.352, -1.204, 'Safran — Fougères', '🔭 PRODUCTION OPTRONIQUE', 'Fougères, 35300', 'Composants optiques', '#8e44ad', 7);
+addSite(43.233, 0.080, 'Safran — Tarbes', '⚙️ USINE COMPOSANTS NAVIGATION', 'Tarbes, 65000', 'Composants mécaniques', '#8e44ad', 7);
+
+// MBDA — Sites
+addSite(47.083, 2.396, 'MBDA — Bourges', '🚀 PRODUCTION MISSILES', 'Route de la Chapelle, 18000 Bourges', 'Assemblage MdCN & Exocet', '#16a085', 9);
+
+// ARIANEGROUP — Sites
+addSite(44.900, -0.720, 'ArianeGroup — St-Médard', '🔥 PROPULSION SOLIDE (M51)', 'Saint-Médard-en-Jalles, 33160', 'Moteurs à poudre', '#d35400', 8);
+
+// EXAIL — Sites
+addSite(43.150, 5.990, 'Exail Robotics — La Garde', '🤖 DRONES SOUS-MARINS & ROBOTIQUE', 'ZI TOULON EST, 262 RUE DES FRÈRES LUMIÈRE, 83130 LA GARDE', 'SIREN 509232591', '#d63384', 8);
+
+// AUTRES
+addSite(47.875, -3.918, 'Kership / Piriou — Concarneau', '🚢 CHANTIER NAVAL', 'ZI LE MOROS, 29900 CONCARNEAU', 'Kership SIREN 793430240 / Piriou 490609682', '#27ae60', 8);
+addSite(47.194, -1.625, 'Sirehna — Bouguenais', '🔬 R&D HYDRODYNAMIQUE (Naval Group 100%)', 'TECHNOCAMPUS OCEAN, 5 RUE DE L\'HALBRANE, 44340 BOUGUENAIS', 'SIREN 337680342', '#2ecc71', 7);
+
+// ════════════════════════════════════════════════════════════
+// SIÈGES SOCIAUX (losanges ◇)
+// ════════════════════════════════════════════════════════════
+
+addHQ(48.851, 2.290, 'Naval Group — Siège', '🏗️ Maître d\'œuvre', '40 RUE DU DOCTEUR FINLAY, 75015 PARIS', 'SIREN 441133808', '#f0c040');
+addHQ(48.724, 2.117, 'TechnicAtome — Siège', '☢️ Propulsion nucléaire', 'ROUTE DE SAINT-AUBIN, 91190 VILLIERS-LE-BÂCLE', 'SIREN 722045879', '#c0392b');
+addHQ(48.812, 2.240, 'Thales — Siège', '📡 Sonars & électronique', '4 RUE DE LA VERRERIE, 92190 MEUDON', 'SIREN 552059024', '#3498db');
+addHQ(48.851, 2.290, 'Safran E&D — Siège', '🔭 Optronique & navigation inertielle', '2 BD GAL MARTIAL VALIN, 75015 PARIS', 'SIREN 480107911', '#9b59b6');
+addHQ(48.780, 2.263, 'MBDA France — Siège', '🚀 Missiles', '1 AV REAUMUR, 92350 LE PLESSIS-ROBINSON', 'SIREN 378168470', '#1abc9c');
+addHQ(48.985, 1.908, 'ArianeGroup — Siège', '🛰️ Missile balistique M51', '51 RTE DE VERNEUIL, 78130 LES MUREAUX', 'SIREN 519032247', '#e67e22');
+addHQ(48.896, 2.078, 'Exail — Siège', '🧭 Navigation inertielle FOG', '34 RUE DE LA CROIX DE FER, 78100 ST-GERMAIN-EN-LAYE', 'SIREN 433185121', '#e84393');
+addHQ(48.875, 2.319, 'EDF — Siège', '⚡ ▲ 50,32% TechnicAtome', '22 AV WAGRAM, 75008 PARIS', 'SIREN 552081317', '#2ecc71');
+addHQ(48.897, 2.256, 'Framatome — Siège', '☢️ Ex-▲ TechnicAtome', 'TOUR AREVA, 1 PLACE JEAN MILLIER, 92400 COURBEVOIE', 'SIREN 379041395', '#2ecc71');
+addHQ(48.912, 2.382, 'DES — Siège', '🔧 Maintenance (Naval Group 49%/Veolia)', '30 RUE MADELEINE VIONNET, 93300 AUBERVILLIERS', 'SIREN 494321862', '#27ae60');
+
+// ════════════════════════════════════════════════════════════
+// AJOUT : sites IGN notables
+// ════════════════════════════════════════════════════════════
+
+// LANESTER (Lorient) — Base sous-marine historique
+addMarker(47.763, -3.343, 'Base sous-marine de Lorient', '🏛️ BASE HISTORIQUE (musée)', 'Lorient, 56100', 'Base WWII — Musée sous-marin', '#5a7a9a', 5);
+
+// Fit view
+const all = [];
+map.eachLayer(l => { if (l.getLatLng) all.push(l); });
+if (all.length) {
+  const group = L.featureGroup(all);
+  map.fitBounds(group.getBounds().pad(0.08));
+}
+</script>
+</body>
+</html>
